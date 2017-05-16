@@ -77,18 +77,18 @@ $\alpha, \bar{u}$ - деякі сталі.
 \end{equation}
 З умов $ v(a) = 0, -\mu(b)u'(b) = \alpha(u(b) - \bar{u}) $:
 \begin{equation}
-\int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx + \alpha u(a)v(a) = \int_a^bf(x)v(x)dx + \alpha\bar{u}v(a)
+\int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx + \alpha u(b)v(b) = \int_a^bf(x)v(x)dx + \alpha\bar{u}v(b)
 \end{equation}
 Звідси запишемо білінійну форму $ a(u,v) $ і функціонал $ <l,v> $
 \begin{equation}\label{variationalBilinearForm}
-a(u, v) = \int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx + \alpha u(a)v(a)
+a(u, v) = \int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx + \alpha u(b)v(b)
 \end{equation}
 \begin{equation}\label{variationalFunctional}
-<l,v> = \int_a^bf(x)v(x)dx + \alpha\bar{u}v(a)
+<l,v> = \int_a^bf(x)v(x)dx + \alpha\bar{u}v(b)
 \end{equation}
 Білінійна форма $a$ породжує норму в даному просторі.
 \begin{equation}
-\norm{u^2} = a(u,u)
+\norm{u}^2 = a(u,u)
 \end{equation}
 Тоді варіаційна постановка задачі матиме вигляд 
 \begin{equation}\label{variationalProblem}
@@ -97,6 +97,72 @@ a(u, v) = \int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx 
 \\& a(u,v) = <l,v>, \forall v \in H^1, v(a) = 0
 \end{split}
 \end{equation}
+
+\section{Побудова двоїстої задачі}
+Побудуємо еквівалентну задачу до \ref{variationalProblem}, яка матиме вигляд:
+\begin{equation}\label{equivalentProblem}
+\begin{split}
+& ? u \in H^1
+\\ & J(u) = \min_{ \forall v \in H^1, v(a)=0}J(v),
+\end{split}
+\end{equation}
+де
+\begin{equation}\label{equivalentEquation}
+J(v) = a(u,v) - 2<l,v>.
+\end{equation}
+
+Підставимо в \ref{equivalentEquation} розв'язок $u$:
+\begin{equation}
+J(u) = a(u,u) - 2<l,u> = -<l,u> = -a(u,u) = -\norm{u}^2.
+\end{equation}
+Тут норма \begin{equation}
+\norm{u} ^ 2 = \int_a^b\ \mu u'^2 + \beta u' u + \sigma u ^ 2dx + 2u^2(b).
+\end{equation} 
+
+Зробимо наступну заміну
+\begin{equation}\label{replacement}
+\psi = -\mu u'.
+\end{equation}
+Звідси $ u' = - \frac{ \psi } { \mu }$. Підставиио цей вираз у формулювання варіаційної задачі \ref{variationalProblem}, щоб одержати вираз для $ u $. Отримаємо
+
+\begin{equation}
+u = \frac {f - \psi' + \beta \psi \mu ^{-1} } {\sigma}.
+\end{equation}
+
+Норма $\norm{u}$ набуде наступного вигляду:
+\begin{equation} \label{dualNorm}
+\norm{u}^2 = \int_a^b \frac{\psi^2} {\mu} - \beta \frac {\psi} {\mu \sigma} (f - \psi' + \beta \frac {\psi} {\mu}) + \frac {(f - \psi' + \beta \frac {\psi} {\mu})^2} {\sigma} dx + \alpha (\frac {f - \psi' + \beta \frac {\psi} {\mu}} {\sigma})^2 = K(\psi, f).
+\end{equation}
+
+Оскільки функціонал $J$ набуває мінімального значення при $u$ і $-J(u) = K(\psi, f)$, то при значенні $\psi$ \ref{dualNorm} набуває також мінімального значення. Звідси 
+\begin{equation} \label{dualNormLimit}
+\lim_{\epsilon \to 0} \frac {K(\psi + \epsilon \phi, f) - K(\psi, f)} {\epsilon} = 0.
+\end{equation}
+
+Підставимо вираз для \ref{dualNorm} в \ref{dualNormLimit}:
+\begin{equation}
+\int_a^b [ \frac{\psi \phi}{\mu} - \frac{\beta \psi' \phi}{\mu \sigma} + \frac{\psi' \phi'}{\sigma} ]dx + \frac{\psi(b) \phi(b)}{\alpha} = \int_a^b \frac{f \phi'}{\sigma}dx - \phi(b) \bar{u}.
+\end{equation}
+
+Звідси запишемо білінійну форму $b(\psi, \phi)$ і функціонал $<r,\phi>$.
+\begin{equation}
+b(\psi, \phi) = \int_a^b [ \frac{\psi \phi}{\mu} - \frac{\beta \psi' \phi}{\mu \sigma} + \frac{\psi' \phi'}{\sigma} ]dx + \frac{\psi(b) \phi(b)}{\alpha}.
+\end{equation}
+
+\begin{equation}
+<r, \phi> = \int_a^b \frac{f \phi'}{\sigma}dx - \phi(b) \bar{u}.
+\end{equation}
+
+Тоді постановка задачі матиме вигляд:
+\begin{equation}\label{variationalDualProblem}
+\begin{split}
+&? \psi \in H
+\\& b(\psi, \phi) = <r, \phi>, \forall \phi \in H
+\end{split}
+\end{equation}
+
+Задачу \ref{variationalDualProblem} називають двоїстою до задачі \ref{variationalProblem}.
+
 
 \section{Побудова наближеного розв’язку}
 Шукатимемо розв’язок \ref{boundaryEquation} у вигляді 
@@ -114,7 +180,7 @@ a(u_h, \phi_k)=<l,\phi_k>,  k=0..N
 де
 \begin{equation}\label{AkiLast}
 \begin{split}
-A_{ki}= \int_a^b \beta(x) \phi_i'(x) \phi_k(x) dx+
+A_{ki}= \int_a^b \mu(x) \phi_i'(x) \phi_k'(x) dx + \int_a^b \beta(x) \phi_i'(x) \phi_k(x) dx+
 \int_a^b \sigma(x) \phi_i(x) \phi_k(x) dx + \alpha \phi_i(b) \phi_k(b)  
 \end{split}
 \end{equation}
@@ -142,7 +208,7 @@ B_1 \\
 B_N \\
 \end{bmatrix}
 \end{eqnarray}
-Розв’язавши дану систему рiвнянь отримаємо набiр коефiцiєнтiв, за допомогою яких складемо лiнiйну комбiнацiю \ref{uhDefinition}
+Розв’язавши дану систему рiвнянь отримаємо набiр коефiцiєнтiв, за допомогою яких складемо лiнiйну комбiнацiю \ref{uhDefinition}. Розв'язок двоїстої задачі \ref{variationalDualProblem} будемо шукати за аналогічною схемою.
 
 \section{Вибір базисних функцій}
 Зафіксуємо натуральне N i подiлимо вiдрiзок [a,b] на скiнченнi елементи з кроком $h=\frac{b-a}{N}$ таким чином, щоб $x_0 = a < x_1 < \ldots < x_{N-1} < x_N = b$. З наведених вище мiркувань отримаємо наступнi обмеження для системи базисних функцiй:
@@ -201,12 +267,12 @@ F_{N-1} \\
 де
 \begin{equation}\label{Ei}
 \begin{split}
-E_i = ||b_i||^2 = & \int_a^b p'(x)b_i'(x)b_i(x)dx + \int_a^b p(x)b_i'(x)b_i'(x)dx + \int_a^b q(x)b_i'(x)b_i(x)dx + \\ & \int_a^b r(x)b_i(x)b_i(x)dx - p(b)b_i'(b)b_i(b) + p(a)b_i'(a)b_i(a)
+E_i = ||b_i||^2 = & \int_a^b \mu(x)b_i'(x)b_i'(x)dx + \int_a^b \beta(x)b_i'(x)b_i(x)dx + \\ & \int_a^b \sigma(x)b_i(x)b_i(x)dx + \alpha b_i(b) b_i(b)
 \end{split}
 \end{equation}
 \begin{equation}\label{Fi}
 \begin{split}
-F_i=& <\rho(u_h),b_i>=\int_a^b f(x)b_i(x)dx-\int_a^b p'(x)u_h'(x)b_i(x)dx - \int_a^b p(x)u_h'(x)b_i'(x)dx - \\ & \int_a^b q(x)u_h'(x)b_i(x)dx - \int_a^b r(x)u_h(x)b_i(x)dx + p(b)u_h'(b)b_i(b) - p(a)u_h'(a)b_i(a)
+F_i=& <\rho(u_h),b_i>= \int_a^b f(x) b_i(x)dx - \int_a^b \mu(x)u_h'(x)b_i'(x)dx - \int_a^b \beta(x) u_h'(x) b_i(x)dx - \\& \int_a^b \sigma(x) u_h(x) b_i(x)dx + \alpha \bar{u} b_i(b) - \alpha u_h(b) b_i(b)
 \end{split}
 \end{equation}
 Коефіцієнти \ref{Ei}, \ref{Fi} отриманi шляхом замiни $u = e + u_h$ та $\phi_i = b_i$ у попереднiх кроках. Завдяки бабл-функцiї \ref{bubbleFunctions} ми отримали дiагональну проблему, з якої можна легко визначити коефiцiєнти $\lambda_i$
@@ -221,79 +287,12 @@ F_i=& <\rho(u_h),b_i>=\int_a^b f(x)b_i(x)dx-\int_a^b p'(x)u_h'(x)b_i(x)dx - \int
 \section{Стратегія адаптування сітки}
 Наведені вище вирази дають змогу побудувати рекурсивний алгоритм з допомогою якого можна згущувати сітку в місцях, де апостеріорний оцінювач визначив похибку, яка перевищує бажану точність. Таким чином на кожному скінченному елементі може бути гарантована довільна наперед задана точність. Індикатори згущення сітки визначаються таким чином:
 \begin{equation}\label{error}
-\eta_i=\frac{\norm{\epsilon_h}_i}{\sqrt{ \frac{1}{N} \sum_{j=0}^{N-1}(\norm{u_h}_j^2 + \norm{e_h}_j^2)}}100\%=\frac{\sqrt{N}\norm{\epsilon_h}_i} {\norm{u_h}_V^2 + \norm{e_h}_V^2} 100\%
+\eta_i=\frac{\norm{\epsilon_h}_i}{\sqrt{ \frac{1}{N} \sum_{j=0}^{N-1}(\norm{u_h}_j^2 + \norm{e_h}_j^2)}}100\%=\frac{\sqrt{N}\norm{\epsilon_h}_i} {\norm{u_h}_V^2 + \norm{e_h}_V^2} 100\%,
 \end{equation}
-де
-\begin{equation}
-\norm{u_h}_i^2 = \int_{x_i}^{x_{i+1}} [u_h'] ^ 2 dx, u=0,\ldots, N-1
-\end{equation}
-Наведений вираз \ref{error} визначає, який вiдсоток становить норма похибки вiд середнього значення норми розв’язку на кожному скiнченному елементi. Якщо це число бiльше вiд заданого допустимого рiвня похибки, то цей скiнченний елемент подiляють на два новi шляхом додавання нового вузла сiтки в його центр ваги[1]. Коли ж iндикатор похибки певного скiнченного елемента не перевищує допустимого рiвня, то такий елемент без змiн входитиме до нової розрахункової сiтки. Процес згущення сітки скніченних елементів завершується за умови, що на даному кроці адаптації не було додано жодного нового вузла.
+де норма породжена білінійною формою \ref{variationalBilinearForm}.
+
+Наведений вираз \ref{error} визначає вiдсоток, який становить норма похибки вiд середнього значення норми розв’язку на кожному скiнченному елементi. Якщо це число бiльше вiд заданого допустимого рiвня похибки, то цей скiнченний елемент подiляють на два новi шляхом додавання нового вузла сiтки в його центр ваги[1]. Коли ж iндикатор похибки певного скiнченного елемента не перевищує допустимого рiвня, то такий елемент без змiн входитиме до нової розрахункової сiтки. Процес згущення сітки скніченних елементів завершується за умови, що на даному кроці адаптації не було додано жодного нового вузла.
 Дана стратегія дозволяє отримати розв'язок з бажаною точністю на мінімально можливій сітці.
-
-\section{Побудова двоїстої задачі}
-Побудуємо еквівалентну задачу до \ref{variationalProblem}, яка матиме вигляд:
-\begin{equation}\label{equivalentProblem}
-\begin{split}
-& ? u \in H^1
-\\ & J(u) = \min_{ \forall v \in H^1, v(a)=0}J(v)
-\end{split}
-\end{equation}
-де
-\begin{equation}\label{equivalentEquation}
-J(v) = a(u,v) - 2<l,v>
-\end{equation}
-
-Підставимо в \ref{equivalentEquation} розв'язок $u$.
-\begin{equation}
-J(u) = a(u,u) - 2<l,u> = -<l,u> = -a(u,u) = -\norm{u}^2
-\end{equation}
-Тут норма \begin{equation}
-\norm{u} ^ 2 = \int_a^b\ \mu u'^2 + \beta u' u + \sigma u ^ 2dx + 2u^2(b)
-\end{equation} 
-
-Зробимо наступну заміну
-\begin{equation}\label{replacement}
-\psi = -\mu u'
-\end{equation}
-Звідси $ u' = - \frac{ \psi } { \mu }$. Підставиио цей вираз у формулювання варіаційної задачі \ref{variationalProblem}, щоб одержати вираз для $ u $. Отримаємо
-
-\begin{equation}
-u = \frac {f - \psi' + \beta \psi \mu ^{-1} } {\sigma}
-\end{equation}
-
-Норма $\norm{u}$ набуде наступного вигляду:
-\begin{equation} \label{dualNorm}
-\norm{u}^2 = \int_a^b \frac{\psi^2} {\mu} - \beta \frac {\psi} {\mu \sigma} (f - \psi' + \beta \frac {\psi} {\mu}) + \frac {(f - \psi' + \beta \frac {\psi} {\mu})^2} {\sigma} dx + \alpha (\frac {f - \psi' + \beta \frac {\psi} {\mu}} {\sigma})^2 = K(\psi, f)
-\end{equation}
-
-Оскільки функціонал $J$ набуває мінімального значення при $u$ і $-J(u) = K(\psi, f)$, то при значенні $\psi$ \ref{dualNorm} набуває також мінімального значення. Звідси 
-\begin{equation} \label{dualNormLimit}
-\lim_{\epsilon \to 0} \frac {K(\psi + \epsilon \phi, f) - K(\psi, f)} {\epsilon} = 0
-\end{equation}
-
-Підставимо вираз для \ref{dualNorm} в \ref{dualNormLimit}:
-\begin{equation}
-\int_a^b [ \frac{\psi \phi}{\mu} - \frac{\beta \psi' \phi}{\mu \sigma} + \frac{\psi' \phi'}{\sigma} ]dx + \frac{\psi(b) \phi(b)}{\alpha} = \int_a^b \frac{f \phi'}{\sigma}dx - \phi(b) \bar{u}
-\end{equation}
-
-Звідси запишемо білінійну форму $b(\psi, \phi)$ і функціонал $<r,\phi>$.
-\begin{equation}
-b(\psi, \phi) = \int_a^b [ \frac{\psi \phi}{\mu} - \frac{\beta \psi' \phi}{\mu \sigma} + \frac{\psi' \phi'}{\sigma} ]dx + \frac{\psi(b) \phi(b)}{\alpha}
-\end{equation}
-
-\begin{equation}
-<r, \phi> = \int_a^b \frac{f \phi'}{\sigma}dx - \phi(b) \bar{u}
-\end{equation}
-
-Тоді постановка задачі матиме вигляд:
-\begin{equation}\label{variationalDualProblem}
-\begin{split}
-&? \psi \in H
-\\& b(\psi, \phi) = <r, \phi>, \forall \phi \in H
-\end{split}
-\end{equation}
-
-Задачу \ref{variationalDualProblem} називають двоїстою до задачі \ref{variationalProblem}.
 
 \section{Аналiз числових результатiв}
 Проведемо кілька експериментів для запропонованої схеми МСЕ і проілюструємо результати.\\
