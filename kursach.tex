@@ -37,6 +37,7 @@
 Метод скінченних елементів (МСЕ) є одним з найпоширеніших методів числового розв’язування крайових задач математичної фізики. Його застосовують для розв’язування складних рiвнянь теорiї пружностi та механiки суцiльних середовищ. Процес розв’язування побудований на повному усуненні диференціального рівняння або на розкладі диференціального рівняння в часткових похід\-них в апроксимуючу систему звичайних диференціальних рівнянь.
 В даній роботі розглянемо постановки крайової задачі, двоїстої до неї задачі та комплексну похибку обох задач за умови розв'язку на одній і тій же сітці.
 Для розв’язування диференці\-ального рівняння використаємо метод Гальоркіна, що наближує розв’язок крайової задачі. Для покращення розв’язку будемо використовувати стратегію адаптування сітки, за допомогою апосте\-ріорного оцінювача будемо знаходити проблемні скінченні елементи. Ефективність методу покаже\-мо числовими розв’язками поставлених задач.
+
 \section{Формулювання крайової задачі}
 Розглянемо постановку крайової задачі. Необхідно знайти таку функцію $u=u(x)$ таку, що є розв’язком рівняння
 \begin{equation}\label{boundaryEquation}
@@ -60,42 +61,65 @@ $\alpha, \bar{u}$ - деякі сталі.
 \end{equation}
 Крайова задача \ref{boundaryEquation} сформульована за допомогою лiнiйного оператора диференцiювання, який визначається у виглядi \ref{differentialOperator}.
 
+\section{Варіаційна постановка задачі}
+Знайдемо скалярний добуток лівої і правої частини рівняння з $ v \in H^1, v(a) = 0 $, де скалярний добуток має вигляд $ (u, v) = \int_a^b u(x)v(x)dx $. Тоді:
+\begin{equation}
+\int_a^b [-(\mu(x)u'(x))'v(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx = \int_a^b f(x)v(x)dx
+\end{equation}
+Проінтегруємо частинами перший доданок інтегралу
+\begin{equation}
+-\mu(x)u'(x)v(x)\Bigr|_a^b + \int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx = \int_a^bf(x)v(x)dx
+\end{equation}
+\begin{equation}
+\begin{split}
+& \int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx \\&  - \mu(b)u'(b)v(b) + \mu(a)u'(a)v(a) = \int_a^bf(x)v(x)dx
+\end{split}
+\end{equation}
+З умов $ v(a) = 0, -\mu(b)u'(b) = \alpha(u(b) - \bar{u}) $:
+\begin{equation}
+\int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx + \alpha u(a)v(a) = \int_a^bf(x)v(x)dx + \alpha\bar{u}v(a)
+\end{equation}
+Звідси запишемо білінійну форму $ a(u,v) $ і функціонал $ <l,v> $
+\begin{equation}\label{variationalBilinearForm}
+a(u, v) = \int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx + \alpha u(a)v(a)
+\end{equation}
+\begin{equation}\label{variationalFunctional}
+<l,v> = \int_a^bf(x)v(x)dx + \alpha\bar{u}v(a)
+\end{equation}
+Тоді варіаційна постановка задачі матиме вигляд 
+\begin{equation}\label{variationalProblem}
+\begin{split}
+& ? u \in H^1,
+\\& a(u,v) = <l,v>, \forall v \in H^1, v(a) = 0
+\end{split}
+\end{equation}
+
+Побудуємо еквівалентну задачу, яка матиме вигляд:
+\begin{equation}\label{equivalentProblem}
+\begin{split}
+& ? u \in H^1
+\\ & J(u) = \min_{ \forall v \in H^1, v(a)=0}J(v)
+\end{split}
+\end{equation}
+де
+\begin{equation}\label{equivalentEquation}
+J(v) = a(u,v) - 2<l,v>
+\end{equation}
+
 \section{Побудова наближеного розв’язку}
 Шукатимемо розв’язок \ref{boundaryEquation} у вигляді 
 \begin{equation}\label{uhDefinition}
 u_h(x)\approx\sum_{i=0}^{N} c_i\phi_i(x)
 \end{equation}
-де $\phi_i\in\{\phi_k\}_{k=0}^{k=N} \subset H^1. \{\phi_k\}_{k=0}^{k=N}$ - система базисних функцій розмірності N у просторі $H^1$. Підставимо \ref{uhDefinition} в \ref{boundaryEquation} і отримаємо наступну нев’язку:
-\begin{equation}\label{residual}
-R(x) = -\mu\sum_{i=0}^{N} c_i\phi_i'' + \beta\sum_{i=0}^{N} c_i\phi_i' + \sigma\sum_{i=0}^{N} c_i\phi_i - f
+де $\phi_i\in\{\phi_k\}_{k=0}^{k=N} \subset H^1. \{\phi_k\}_{k=0}^{k=N}$ - система базисних функцій розмірності N у просторі $H^1$. Підставимо $u_h$ як $u$ і $\phi_i$ як $v$ в \ref{variationalProblem}.
+Отримаємо неоднорiдну систему лiнiйних алгебраїчних рiвнянь:
+\begin{equation}
+a(u_h, \phi_k)=<l,\phi_k>,  k=0..N
 \end{equation}
-Нев’язка \ref{residual} є характеристикою вiдхилення $u_h(x)$ вiд точного розв’язку $u(x)$ задачi. Якщо нев’язка тотожно рiвна нулю всерединi областi, то $u(x) = u_h(x)$. В загальному випадку це не так. Вимагати\-мемо, щоб проекцiя нев’язки на кожну базисну функцiю, була рiвна нулю, тодi нев’язка буде ортогональна до лiнiйної оболонки базисних функцiй, а отже мiнiмальна[2].
-\begin{equation}\label{residualScalar}
-(R(x), \phi_k(x)) = 0, k = 0..N,
+\begin{equation}\label{matrixEquation}
+\sum_{i=0}^{N} c_iA_{ki} = B_k,  k=0..N
 \end{equation}
 де
-\begin{equation}\label{scalarProduct}
-(u, v) = \int_a^b u(x)v(x)dx
-\end{equation}
-\ref{scalarProduct} - скалярний добуток у вiдповiдному просторi. Запишемо умову \ref{residualScalar} в розгорнутому виглядi для визначення коефiцiєнтiв $ c_i $. Отримаємо неоднорiдну систему лiнiйних алгебраїчних рiвнянь:
-\begin{equation}\label{matrixEquation}
-\sum_{i=0}^{N} c_iA_{ki} = B_i,  k=0..N
-\end{equation}
-де 
-\begin{equation}\label{AkiFirst}
-A_{ki} = -\int_a^b (\mu(x) \phi_i'(x))' \phi_k(x) dx + \int_a^b \beta(x) \phi_i'(x) \phi_k(x)dx + \int_a^b \sigma(x) \phi_i(x) \phi_k(x)dx
-\end{equation}
-Проінтегруємо частинами \ref{AkiFirst}, щоб позбутись другої похідної в першому інтегралі
-\begin{equation}\label{AkiSecond}
-\begin{split}
-A_{ki} = & \int_a^b \mu(x) \phi_i'(x) \phi_k'(x) dx + \int_a^b \beta(x) \phi_i'(x) \phi_k(x) dx + \\& \int_a^b \sigma(x) \phi_i(x) \phi_k(x) dx - \mu(b) \phi_i'(b) \phi_k(b)
-\end{split}
-\end{equation}
-
-\begin{equation}\label{Bk}
-B_k = \int_a^b f(x)\phi_k(x)dx
-\end{equation}
-Використавши крайові умови \ref{boundaryCondition} в \ref{AkiSecond}, \ref{Bk} включимо їх в систему рівнянь.
 \begin{equation}\label{AkiLast}
 \begin{split}
 A_{ki}= \int_a^b \beta(x) \phi_i'(x) \phi_k(x) dx+
@@ -127,10 +151,6 @@ B_N \\
 \end{bmatrix}
 \end{eqnarray}
 Розв’язавши дану систему рiвнянь отримаємо набiр коефiцiєнтiв, за допомогою яких складемо лiнiйну комбiнацiю \ref{uhDefinition}
-
-\section{Формулювання двоїстої задача}
-Двоїстою до даної називають задачу, шуканим розв'язком якої
-
 \section{Вибір базисних функцій}
 Зафіксуємо натуральне N i подiлимо вiдрiзок [a,b] на скiнченнi елементи з кроком $h=\frac{b-a}{N}$ таким чином, щоб $x_0 = a < x_1 < \ldots < x_{N-1} < x_N = b$. З наведених вище мiркувань отримаємо наступнi обмеження для системи базисних функцiй:
 \begin{enumerate}
@@ -216,6 +236,10 @@ F_i=& <\rho(u_h),b_i>=\int_a^b f(x)b_i(x)dx-\int_a^b p'(x)u_h'(x)b_i(x)dx - \int
 \end{equation}
 Наведений вираз \ref{error} визначає, який вiдсоток становить норма похибки вiд середнього значення норми розв’язку на кожному скiнченному елементi. Якщо це число бiльше вiд заданого допустимого рiвня похибки, то цей скiнченний елемент подiляють на два новi шляхом додавання нового вузла сiтки в його центр ваги[1]. Коли ж iндикатор похибки певного скiнченного елемента не перевищує допустимого рiвня, то такий елемент без змiн входитиме до нової розрахункової сiтки. Процес згущення сітки скніченних елементів завершується за умови, що на даному кроці адаптації не було додано жодного нового вузла.
 Дана стратегія дозволяє отримати розв'язок з бажаною точністю на мінімально можливій сітці.
+
+\section{Формулювання двоїстої задача}
+Двоїстою до даної називають задачу, шуканим розв'язком якої
+
 
 \section{Аналiз числових результатiв}
 Проведемо кілька експериментів для запропонованої схеми МСЕ і проілюструємо результати.\\
