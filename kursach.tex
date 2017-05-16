@@ -39,9 +39,11 @@
 Для розв’язування диференці\-ального рівняння використаємо метод Гальоркіна, що наближує розв’язок крайової задачі. Для покращення розв’язку будемо використовувати стратегію адаптування сітки, за допомогою апосте\-ріорного оцінювача будемо знаходити проблемні скінченні елементи. Ефективність методу покаже\-мо числовими розв’язками поставлених задач.
 
 \section{Формулювання крайової задачі}
-Розглянемо постановку крайової задачі. Необхідно знайти таку функцію $u=u(x)$ таку, що є розв’язком рівняння
+Розглянемо постановку крайової задачі. Необхідно знайти таку функцію
+
+ $u=u(x) \in V : \{ v \in H^1(a,b), v(a) = 0 \}$  таку, що є розв’язком рівняння:
 \begin{equation}\label{boundaryEquation}
-L[u]=f
+L[u]=f,
 \end{equation}
 де
 \begin{equation}\label{differentialOperator}
@@ -93,8 +95,8 @@ a(u, v) = \int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx 
 Тоді варіаційна постановка задачі матиме вигляд 
 \begin{equation}\label{variationalProblem}
 \begin{split}
-& ? u \in H^1,
-\\& a(u,v) = <l,v>, \forall v \in H^1, v(a) = 0
+& ? u \in V = H^1(0, 1),
+\\& a(u,v) = <l,v>, \forall v \in V, v(a) = 0
 \end{split}
 \end{equation}
 
@@ -102,8 +104,8 @@ a(u, v) = \int_a^b [\mu(x)u'(x)v'(x) + \beta(x)u'(x)v(x) + \sigma(x)u(x)v(x)]dx 
 Побудуємо еквівалентну задачу до \ref{variationalProblem}, яка матиме вигляд:
 \begin{equation}\label{equivalentProblem}
 \begin{split}
-& ? u \in H^1
-\\ & J(u) = \min_{ \forall v \in H^1, v(a)=0}J(v),
+& ? u \in V=H^1(0,1)
+\\ & J(u) = \min_{ \forall v \in V, v(a)=0}J(v),
 \end{split}
 \end{equation}
 де
@@ -146,7 +148,7 @@ u = \frac {f - \psi' + \beta \psi \mu ^{-1} } {\sigma}.
 
 Звідси запишемо білінійну форму $b(\psi, \phi)$ і функціонал $<r,\phi>$.
 \begin{equation}
-b(\psi, \phi) = \int_a^b [ \frac{\psi \phi}{\mu} - \frac{\beta \psi' \phi}{\mu \sigma} + \frac{\psi' \phi'}{\sigma} ]dx + \frac{\psi(b) \phi(b)}{\alpha}.
+b(\psi, \phi) = \int_a^b [ \frac{\psi \phi}{\mu} - \frac{\beta \psi \phi'}{\mu \sigma} + \frac{\psi' \phi'}{\sigma} ]dx + \frac{\psi(b) \phi(b)}{\alpha}.
 \end{equation}
 
 \begin{equation}
@@ -156,8 +158,8 @@ b(\psi, \phi) = \int_a^b [ \frac{\psi \phi}{\mu} - \frac{\beta \psi' \phi}{\mu \
 Тоді постановка задачі матиме вигляд:
 \begin{equation}\label{variationalDualProblem}
 \begin{split}
-&? \psi \in H
-\\& b(\psi, \phi) = <r, \phi>, \forall \phi \in H
+&? \psi \in \Phi = H^1(a,b)
+\\& \forall \phi \in \Phi: b(\psi, \phi) = <r, \phi> 
 \end{split}
 \end{equation}
 
@@ -209,6 +211,17 @@ B_N \\
 \end{bmatrix}
 \end{eqnarray}
 Розв’язавши дану систему рiвнянь отримаємо набiр коефiцiєнтiв, за допомогою яких складемо лiнiйну комбiнацiю \ref{uhDefinition}. Розв'язок двоїстої задачі \ref{variationalDualProblem} будемо шукати за аналогічною схемою.
+
+\section{Комплексна характеристика похибок прямої та двоїстої задач}
+Розглянемо рівність:
+\begin{equation}
+\norm{u} ^ 2 = K(\psi, f) = b(\psi, \psi) - 2<r, \psi> + \norm{f}^2 = - <r,\psi> + \norm{f}^2 = -b(\psi, \psi) + \norm{f}^2.
+\end{equation}
+Оскільки $b(\psi, \psi)$ породжує норму, то можемо записати:
+\begin{equation}\label{complexError}
+\norm{u}^2 = \norm{f}^2 - \norm{\psi^2}.
+\end{equation}
+У випадку точного розв'язку наведений вираз є тотожністю. При наближеному розвя'зку значення виразу буде відрізнятись від 0. Це дає нам змогу використовувати його для оцінки загальної похибки розв'язку обох задач на всьому проміжку $[a,b]$.
 
 \section{Вибір базисних функцій}
 Зафіксуємо натуральне N i подiлимо вiдрiзок [a,b] на скiнченнi елементи з кроком $h=\frac{b-a}{N}$ таким чином, щоб $x_0 = a < x_1 < \ldots < x_{N-1} < x_N = b$. З наведених вище мiркувань отримаємо наступнi обмеження для системи базисних функцiй:
